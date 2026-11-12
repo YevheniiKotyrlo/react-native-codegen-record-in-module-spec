@@ -1,16 +1,25 @@
 # react-native-codegen-record-in-module-spec
 
-![Build](https://github.com/YevheniiKotyrlo/react-native-codegen-record-in-module-spec/workflows/Pre%20Merge%20Checks/badge.svg)
+`ReproducerApp/specs/NativeSample.ts` is a TurboModule spec whose one method takes `Record<string, unknown>`.
+`repro.sh` parses it with react-native's codegen through `combine-js-to-schema-cli.js`, as an app's codegen step runs
+it, beside copies whose parameter is `Readonly<Record<string, unknown>>`, `{[key: string]: unknown}` and
+`CodegenTypes.UnsafeObject`, and prints what codegen made of each.
 
-This is your new React Native Reproducer project.
+```sh
+docker run --rm -v "$PWD:/repro:ro" node:24 bash /repro/repro.sh
+```
+
+`bash repro.sh` runs it with the Node and npm on `PATH`, and `bash /repro/repro.sh 0.88.1` on a release instead of
+`react-native@nightly`. It exits 1 while codegen does not read `Record<string, unknown>` as it reads
+`{[key: string]: unknown}`, 0 once it does, and 2 when a step fails.
 
 # Reproducer TODO list
 
 - [x] 1. Create a new reproducer project.
-- [ ] 2. Git clone your repository locally.
-- [ ] 3. Edit the project to reproduce the failure you're seeing.
-- [ ] 4. Push your changes, so that Github Actions can run the CI.
-- [ ] 5. Make sure the repository is public and share the link with the issue you reported.
+- [x] 2. Git clone your repository locally.
+- [x] 3. Edit the project to reproduce the failure you're seeing.
+- [x] 4. Push your changes, so that Github Actions can run the CI.
+- [x] 5. Make sure the repository is public and share the link with the issue you reported.
 
 # How to use this Reproducer
 
