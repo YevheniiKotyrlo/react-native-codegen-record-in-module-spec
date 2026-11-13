@@ -13,6 +13,18 @@ docker run --rm -v "$PWD:/repro:ro" node:24 bash /repro/repro.sh
 `react-native@nightly`. It exits 1 while codegen does not read `Record<string, unknown>` as it reads
 `{[key: string]: unknown}`, 0 once it does, and 2 when a step fails.
 
+`ReproducerApp/specs/NativeRules.ts` takes `ReadonlyArray<Rule>`, where `Rule` has a `Record<string, unknown>` member.
+`repro-array-element.sh` parses it the same way, beside a copy whose member is `{[key: string]: unknown}`, and prints
+the element type each schema gives the array:
+
+```sh
+docker run --rm -v "$PWD:/repro:ro" node:24 bash /repro/repro-array-element.sh
+```
+
+It exits 1 while codegen parses the `Record` spelling with no error and an `AnyTypeAnnotation` element, 0 once it
+reads the element as it reads the `{[key: string]: unknown}` one or refuses the spec with an error, and 2 when a step
+fails.
+
 # Reproducer TODO list
 
 - [x] 1. Create a new reproducer project.
